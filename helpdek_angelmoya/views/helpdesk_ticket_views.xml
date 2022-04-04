@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="helpdesk_ticket_action_all" model="ir.actions.act_window">
+        <field name="name">Helpdesk Tickets</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new ticket
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="helpdeks_menu" name="Helpdesk" sequence="10"/>
+    <menuitem id="helpdeks_tickets_menu" name="Tickets" sequence="10" parent="helpdeks_menu"/>
+    <menuitem id="all_helpdesk_tickets_menu" name="All Tickets" sequence="10" parent="helpdeks_tickets_menu" action="helpdesk_ticket_action_all"/>
+
+</odoo>
