@@ -36,7 +36,9 @@
                         </group>
                         <group name="dates">
                             <field name="date"/>
+                            <field name="date_start"/>                            
                             <field name="limit_date"/>
+                            <field name="time" widget="float_time"/>                            
                         </group>
                     </group>
                     <notebook>
@@ -68,12 +70,132 @@
             </form>
         </field>
     </record>
+
+    <record id="view_helpdesk_ticket_kanban" model="ir.ui.view">
+        <field name="name">view.helpdesk_ticket.kanban</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="user_id">
+                <field name="user_id"/>
+                <field name="date"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                    <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click oe_kanban_card d-flex flex-column">
+                            <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                </div>
+                            <div class="oe_kanban_content flex-grow-1">
+                                <div class="o_kanban_record_title oe_kanban_details">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="o_kanban_record_subtitle">
+                                    color: <field name="color"/>
+                                </div>
+                                <div>
+                                    Date: <field name="date"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_footer">
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <!-- <field name="priority" widget="priority" groups="base.group_user"/>
+                                        <field name="activity_ids" widget="kanban_activity"/> -->
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="user_id" widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_clear"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+            
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_pivot" model="ir.ui.view">
+        <field name="name">view.helpdesk_ticket.pivot</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <pivot string="Ticket Analysis">
+                 <field name="user_id" type="col"/>
+                 <field name="date" type="row"/>
+                 <field name="time" widget="float_time" type="measure"/>
+             </pivot>
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_graph" model="ir.ui.view">
+        <field name="name">view.helpdesk_ticket.graph</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <graph string="Ticket Analysis" type="pie">
+                 <field name="user_id"/>
+                 <field name="time" widget="float_time" type="measure"/>
+             </graph>
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_calendar" model="ir.ui.view">
+        <field name="name">view.helpdesk_ticket.calendar</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <calendar string="Tickets" date_start="date_start" date_delay="time" color="state" hide_time="true" event_limit="5">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="state" filters="1" invisible="1"/>
+            </calendar>
+            
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_search" model="ir.ui.view">
+        <field name="name">view.helpdesk_ticket.search</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <search string="Tickets">
+                <!-- filtrar por nombre y por usuario asignado -->
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="assigned"/>
+                <field name="date"/>
+                
+                
+                <!-- filtrar tickets asignados -->
+                <filter string="User Assigneds" name="user_assigned" domain="[('user_id', '!=', False)]"/>
+                <filter string="Assigneds" name="assigned" domain="[('assigned', '=', True)]"/>
+                    
+                <!-- filtrar tickets sin date_due -->
+                <filter string="No Date" name="date" domain="[('date', '=', False)]"/>
+
+
+                <group string="Group By" name="groupby">
+                    <!-- agrupar por usuario asignado -->
+                    <filter name="user_id_groupby" string="User" context="{'group_by': 'user_id'}" />
+                    <!-- agrupar por date_due -->
+                    <filter name="date_groupby" string="Date" context="{'group_by': 'date'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    
     
     <record id="helpdesk_ticket_action_all" model="ir.actions.act_window">
         <field name="name">Helpdesk Tickets</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">helpdesk.ticket</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,kanban,pivot,graph,calendar,form</field>
+        <field name="search_view_id" ref="view_helpdesk_ticket_search"/>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -81,6 +203,7 @@
             </p>
         </field>
     </record>
+
 
     <menuitem id="helpdeks_menu" name="Helpdesk" sequence="10"/>
     <menuitem id="helpdeks_tickets_menu" name="Tickets" sequence="10" parent="helpdeks_menu"/>

@@ -8,6 +8,9 @@ class HelpdeskTicket(models.Model):
     name = fields.Char(required=True)
     description = fields.Text(translatable=True)
     date = fields.Date(help="Date when the ticket was created")
+    date_start = fields.Datetime()
+    time = fields.Float(
+        string='Time')
     limit_date = fields.Datetime(help="Date and time when the ticket will be closed")
     assigned= fields.Boolean(help="Ticket assigned to someone", readonly=True)
     actions_todo = fields.Html()
@@ -28,6 +31,7 @@ class HelpdeskTicket(models.Model):
         # column1='col_name',
         # column2='other_col_name',
         string='Tags')
+    color = fields.Integer('Color Index', default=0)
     
     
     
