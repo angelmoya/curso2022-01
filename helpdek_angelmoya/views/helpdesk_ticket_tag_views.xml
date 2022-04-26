@@ -13,6 +13,9 @@
                     <group name="description" string="Description">
                         <field name="description" nolabel="1"/>
                     </group>
+                    <group name="Tickets">
+                        <field name="ticket_ids" nolabel="1"/>
+                    </group>
                 </sheet>
             </form>
         </field>
