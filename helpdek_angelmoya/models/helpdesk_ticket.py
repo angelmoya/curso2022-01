@@ -7,7 +7,7 @@ class HelpdeskTicket(models.Model):
     _order = "sequence"
 
     name = fields.Char(required=True, copy=False)
-    description = fields.Text(translatable=True)
+    description = fields.Text(translate=True)
     date = fields.Date(help="Date when the ticket was created")
     date_start = fields.Datetime()
     time = fields.Float(
@@ -25,7 +25,9 @@ class HelpdeskTicket(models.Model):
     user_email = fields.Char(
         string='User Email',
         related='user_id.partner_id.email')
-     
+    ticket_company = fields.Boolean(
+        string='Ticket Company')
+    
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Partner')
@@ -38,7 +40,7 @@ class HelpdeskTicket(models.Model):
         inverse_name='ticket_id',
         string='Actions Done')
     tag_name = fields.Char(
-        string='Tag Name')    
+        string='Tag Name')
     tag_ids = fields.Many2many(
         comodel_name='helpdesk.ticket.tag',
         relation='helpdesk_ticket_tag_rel',
