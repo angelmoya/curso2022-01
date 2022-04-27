@@ -9,6 +9,9 @@ class HelpdeskTicketAction(models.Model):
     name = fields.Char(required=True)
     description = fields.Text()
     duration = fields.Float()
+    user_id = fields.Many2one(
+        comodel_name='res.users',
+        string='Assigned to')
     ticket_id = fields.Many2one(
         comodel_name='helpdesk.ticket')
     

@@ -30,9 +30,10 @@
                     </div>
                     <group name="main">
                         <group name="user">
-                            <field name="user_id"/>
+                            <field name="user_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="user_email"/>
-                            <field name="partner_id"/>
+                            <field name="ticket_company"/>
+                            <field name="partner_id" options="{'no_quick_create': True, 'no_open': True}" domain="[('is_company', '=', ticket_company)]"/>
                             <field name="partner_email"/>                            
                             <field name="assigned"/>
                             
@@ -58,7 +59,7 @@
                         <page string="Actions Done">
                             <button string="Review" name="review_actions" type="object" class="btn-primary"/>
                              <group>
-                                <field name="action_ids" nolabel="1"/>
+                                <field name="action_ids" nolabel="1" context="{'default_user_id':user_id, 'tree_view_ref':'helpdek_angelmoya.view_helpdesk_ticket_action_tree', 'form_view_ref':'helpdek_angelmoya.view_helpdesk_ticket_action_form'}"/>
                              </group>
                         </page>
                         <page string="Tags">
