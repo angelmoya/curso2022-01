@@ -67,8 +67,6 @@
     
 
 
-    <menuitem id="helpdeks_config_menu" name="Config" sequence="10" parent="helpdeks_menu"/>
-    <menuitem id="helpdesk_ticket_tag_menu" parent="helpdeks_config_menu"
-        action="helpdesk_ticket_tag_action" sequence="20"/>
+
         
 </odoo>
