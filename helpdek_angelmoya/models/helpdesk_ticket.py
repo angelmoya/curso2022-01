@@ -1,6 +1,7 @@
 from odoo import fields, models, api, _, Command
 from odoo.exceptions import UserError
-
+from odoo.exceptions import ValidationError
+from dateime import datetime
 class HelpdeskTicket(models.Model):
     _name = "helpdesk.ticket"
     _description = "Helpdesk Ticket"
@@ -27,7 +28,6 @@ class HelpdeskTicket(models.Model):
         related='user_id.partner_id.email')
     ticket_company = fields.Boolean(
         string='Ticket Company')
-    
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Partner')
@@ -48,9 +48,6 @@ class HelpdeskTicket(models.Model):
         column2='tag_id',
         string='Tags')
     color = fields.Integer('Color Index', default=0)
-    
-    
-    
     state = fields.Selection(
         [('nuevo', 'Nuevo'),
          ('asignado', 'Asignado'),
@@ -132,3 +129,17 @@ class HelpdeskTicket(models.Model):
         #     'ticket_ids': [Command.set(self.ids)]})
         # self.write({
         #     'tag_name': False})
+        
+    @api.constrains('time')
+    def _check_time(self):
+        # for ticket in self:
+        #     if ticket.time < 0:
+        if self.filtered(lambda t: t.time < 0):
+            raise ValidationError(_("The time must be a greather than 0."))
+        
+    @api.onchange('date_start')
+    def _onchange_date_start(self):
+        if self.date_start:
+            self.limit_date = self.date_start + datetime.timedelta(days=1)
+        else:
+            self.limit_date = False
