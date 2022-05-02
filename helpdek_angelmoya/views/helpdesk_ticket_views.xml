@@ -70,8 +70,8 @@
                                     type="object"
                                     context="{}" />
                                 <button string="Create (popup)"
-                                    name="%(helpdesk_angelmoya.new_helpdesk_ticket_tag_action)d"
-                                    type="object"
+                                    name="%(helpdek_angelmoya.new_helpdesk_ticket_tag_action)d"
+                                    type="action"
                                     context="{'default_name': tag_name}" />
                             </group>
                              <group>
@@ -223,5 +223,7 @@
     <menuitem id="helpdeks_menu" name="Helpdesk" sequence="10"/>
     <menuitem id="helpdeks_tickets_menu" name="Tickets" sequence="10" parent="helpdeks_menu"/>
     <menuitem id="all_helpdesk_tickets_menu" name="All Tickets" sequence="10" parent="helpdeks_tickets_menu" action="helpdesk_ticket_action_all"/>
-
+    <menuitem id="helpdeks_config_menu" name="Config" sequence="10" parent="helpdeks_menu"/>
+    <menuitem id="helpdesk_ticket_tag_menu" parent="helpdeks_config_menu"
+        action="helpdesk_ticket_tag_action" sequence="20"/>
 </odoo>

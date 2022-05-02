@@ -1,12 +1,16 @@
 from odoo import fields, models, api, _, Command
 from odoo.exceptions import UserError
 from odoo.exceptions import ValidationError
-from dateime import datetime
+from datetime import datetime
 class HelpdeskTicket(models.Model):
     _name = "helpdesk.ticket"
     _description = "Helpdesk Ticket"
     _order = "sequence"
 
+    @api.model
+    def _get_default_user(self):
+        return self.env.user
+    
     name = fields.Char(required=True, copy=False)
     description = fields.Text(translate=True)
     date = fields.Date(help="Date when the ticket was created")
@@ -22,7 +26,10 @@ class HelpdeskTicket(models.Model):
     actions_todo = fields.Html()
     user_id = fields.Many2one(
         comodel_name='res.users',
-        string='Assigned to')
+        string='Assigned to',
+        # default=lambda self: self.env.user,
+        default=_get_default_user,
+        )
     user_email = fields.Char(
         string='User Email',
         related='user_id.partner_id.email')
