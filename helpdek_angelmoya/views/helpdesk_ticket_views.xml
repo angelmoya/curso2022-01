@@ -69,6 +69,11 @@
                                     name="create_and_link_tag"
                                     type="object"
                                     context="{}" />
+                                <button string="Create (popup)"
+                                    name="%(helpdesk_angelmoya.new_helpdesk_ticket_tag_action)d"
+                                    type="object"
+                                    context="{'default_name': tag_name}" />
+                                
                             </group>
                              <group>
                                 <field name="tag_ids" nolabel="1"/>
