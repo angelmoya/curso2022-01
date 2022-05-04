@@ -6,6 +6,11 @@
         <field name="model">helpdesk.ticket.tag</field>
         <field name="arch" type="xml">
             <form string="Helpdesk Tags">
+                <header>
+                    <button string="Create Ticket"
+                        name="%(helpdek_angelmoya.create_ticket_action)d"
+                        type="action"/>
+                </header>
                 <sheet>
                     <group name="main">
                         <field name="name" />
