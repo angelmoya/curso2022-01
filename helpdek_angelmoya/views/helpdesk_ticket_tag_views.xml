@@ -70,7 +70,8 @@
     </record>
 
     
-
+    <menuitem id="helpdesk_ticket_tag_menu" parent="helpdeks_config_menu"
+        action="helpdesk_ticket_tag_action" sequence="20"/>
 
 
         

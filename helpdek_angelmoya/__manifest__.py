@@ -8,10 +8,13 @@
     'data': [
         'security/helpdesk_security.xml',
         'security/ir.model.access.csv',
+        'views/helpdesk_ticket_menu.xml',
+        'wizards/create_ticket_views.xml',
         'views/helpdesk_ticket_tag_views.xml',
         'views/helpdesk_ticket_views.xml',
         'views/helpdesk_ticket_action_views.xml',
         'data/tag_cron.xml',
-        'wizards/create_ticket_views.xml',
+        'reports/ticket_report_templates.xml',
+        'reports/ticket_report.xml',
     ],
 }

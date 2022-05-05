@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="helpdeks_menu" name="Helpdesk" sequence="10"/>
+    <menuitem id="helpdeks_tickets_menu" name="Tickets" sequence="10" parent="helpdeks_menu"/>
+    <menuitem id="helpdeks_config_menu" name="Config" sequence="10" parent="helpdeks_menu"/>
+
+        
+</odoo>
